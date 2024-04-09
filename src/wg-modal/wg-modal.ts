@@ -228,14 +228,16 @@ export class WgModal extends HTMLElement {
     this.filterElementList();
   }
 
-  onDismiss(): void {
-    if (this.changedElements.length) {
+  onDismiss(event: any): void {
+    const condition =
+      this.changedElements.length && event.target.id === 'save-btn';
+    if (condition) {
       STATE.updateElements(this.changedElements);
     }
     const onClose = new CustomEvent('wg-on-dismiss', {
       bubbles: true,
       composed: true,
-      detail: this.changedElements?.length,
+      detail: condition,
     });
     this.dispatchEvent(onClose);
   }
